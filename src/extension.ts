@@ -3,7 +3,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import MyhexdumpContentProvider from './contentProvider'
-import { Range, Selection } from 'vscode';
+import { Range, Selection, TextEditorEdit } from 'vscode';
+
+const escapeStringRegexp = require('escape-string-regexp');
 
 var find_str: string = "";
 
@@ -34,6 +36,8 @@ export function activate(context: vscode.ExtensionContext) {
         let selection = vscode.workspace.textDocuments[0];
         find_str = selection.getText(new Range(start, end));
 
+        vscode.commands.executeCommand('actions.findWithSelection', find_str);
+
     });
     context.subscriptions.push(disposable1);
 
@@ -52,6 +56,43 @@ export function activate(context: vscode.ExtensionContext) {
 
     });
     context.subscriptions.push(disposable2);
+
+
+    function runCommandOnSelection(cmd) {
+        let selection = vscode.window.activeTextEditor.selection
+        let active_doc = vscode.workspace.textDocuments[0];
+        let selected_txt = active_doc.getText(new Range(selection.start, selection.end));
+        var new_line:string = "\n"
+        if (active_doc.eol == 2) {
+            new_line = "\r\n"
+        }
+        let escaped_str = escapeStringRegexp(selected_txt).replace(new RegExp(new_line, 'g'), "\\n");
+        console.log(escaped_str);
+        vscode.window.activeTextEditor.edit(editBuilder => {
+            editBuilder.replace(selection, escaped_str);
+        });
+        cmd();
+        vscode.window.activeTextEditor.show()
+        // undo or do another replace?
+        //vscode.commands.executeCommand('undo');
+        vscode.commands.executeCommand('undo');
+        // vscode.window.activeTextEditor.edit(editBuilder => {
+        //     editBuilder.replace(vscode.window.activeTextEditor.selection, selected_txt);
+        // });
+    }
+
+    let disposable3 = vscode.commands.registerCommand('extension.multiLineFind', () => {
+        // How to only toggle on?
+        // Could add text run find and check, but super hacky
+        // vscode.commands.executeCommand('toggleFindRegex');
+        runCommandOnSelection(()=>{vscode.commands.executeCommand('undo');})
+    });
+    context.subscriptions.push(disposable3);
+
+    let disposable4 = vscode.commands.registerCommand('extension.copyAsRegex', () => {
+        runCommandOnSelection(()=>{vscode.commands.executeCommand('editor.action.clipboardCopyAction');})
+    });
+    context.subscriptions.push(disposable4);
 }
 
 // this method is called when your extension is deactivated

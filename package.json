@@ -2,6 +2,12 @@
     "name": "multiline-find-and-replace",
     "displayName": "Multiline Find and Replace",
     "description": "Multiline Find and Replace",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/axlan/vscode-multiline-find.git"
+    },
+    "license": "LICENSE.md",
+    "icon": "icon.png",
     "version": "0.0.1",
     "publisher": "axlan",
     "engines": {
@@ -11,18 +17,32 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.setFind"
+        "onCommand:extension.setFind",
+        "onCommand:extension.copyAsRegex",
+        "onCommand:extension.multiLineFind"
     ],
     "main": "./out/extension",
     "contributes": {
         "commands": [
             {
                 "command": "extension.setFind",
-                "title": "Set Find"
+                "title": "Set Find",
+                "icon": {
+                    "light": "./media/multi-line-icon.svg",
+                    "dark": "./media/multi-line-icon-dark.svg"
+                }
             },
             {
                 "command": "extension.findNext",
                 "title": "Find Next"
+            },
+            {
+                "command": "extension.copyAsRegex",
+                "title": "Copy Selection as Regex"
+            },
+            {
+                "command": "extension.multiLineFind",
+                "title": "Open Find Widget with Selection as Regex"
             }
         ]
     },
@@ -40,6 +60,7 @@
         "@types/mocha": "^2.2.42"
     },
     "dependencies": {
-        "sprintf-js": "^1.0.3"
+        "sprintf-js": "^1.0.3",
+        "escape-string-regexp": "^1.0.5"
     }
 }
