@@ -23,3 +23,4 @@ Trying to get 3. working:
 https://github.com/Microsoft/vscode-extension-samples/tree/master/contentprovider-sample/
 https://github.com/cfjedimaster/htmlescape-vscode
 https://github.com/Microsoft/vscode/issues/272
+https://stackoverflow.com/questions/45394095/can-textdocumentcontentprovider-html-jscontent-talk-to-an-the-extensions-code
