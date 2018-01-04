@@ -30,6 +30,10 @@
     "contributes": {
         "commands": [
             {
+                "command": "extension.showHtmlEscape",
+                "title": "showHtmlEscape"
+            },
+            {
                 "command": "multilinefind.copyAsRegex",
                 "title": "Copy MultiLine Selection as Escaped Regex",
                 "icon": {
