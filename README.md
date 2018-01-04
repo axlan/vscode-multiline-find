@@ -17,3 +17,9 @@ There are a few aproaches one could take to add this functionality. In order of 
 I initially went with aproach 2 and was able to basically get things working. I could copy multiline segments as a regex and send them to the find widget. I hit an unexpected issue in that `ctrl+f` with selected text when the regex toggle escapes special characters. Therefore I couldn't pass in \n. Since you can't detect the regex enable state and you can only toggle it, this makes this method pretty useless. I could do some crazy seqence to try to determine the regex enable state by running findNext and seeing how the selection changes, but I decided this was too hacky.
 
 I decided to go back with option 1 and finish out the basic functionality.
+
+
+Trying to get 3. working:
+https://github.com/Microsoft/vscode-extension-samples/tree/master/contentprovider-sample/
+https://github.com/cfjedimaster/htmlescape-vscode
+https://github.com/Microsoft/vscode/issues/272

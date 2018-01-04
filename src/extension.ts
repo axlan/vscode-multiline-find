@@ -96,34 +96,6 @@ export function activate(context: vscode.ExtensionContext) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     let previewUri = vscode.Uri.parse('html-escape://cfjedimaster/html-escape');
 
     class TextDocumentContentProvider implements vscode.TextDocumentContentProvider {
