@@ -16,7 +16,7 @@ function get_selected_text(doc, selection) {
 
 function get_escaped_str(txt) {
     var escaped_str:string = escapeStringRegexp(txt);
-    escaped_str = escaped_str.replace(new RegExp("\r", 'g'), "\\r");
+    escaped_str = escaped_str.replace(new RegExp("\r", 'g'), "");
     escaped_str = escaped_str.replace(new RegExp("\n", 'g'), "\\n");
     return escaped_str;
 }
@@ -35,7 +35,7 @@ function multiLineFind() {
         let match_end = active_doc.positionAt(match + find_str.length);
         vscode.window.activeTextEditor.selection = new Selection(match_start, match_end);
     } else {
-        vscode.window.showInformationMessage("End of file reached: No Matches");
+        vscode.window.setStatusBarMessage("End of file reached: No Matches", 2000);
     }
 }
 
@@ -47,8 +47,9 @@ function multiLineFindWithSelection() {
         if (find_str.length == 0) {
             return;
         }
-    } else {
+    } else if (find_str != selected_txt) {
         find_str = selected_txt;
+        vscode.window.setStatusBarMessage("Multiline find set to selection", 2000);
     }
     return multiLineFind();
 }
@@ -70,6 +71,8 @@ function multiLineReplaceFindNext() {
                 multiLineFind();
             }
        });
+    } else {
+        multiLineFind();
     }
 }
 
@@ -117,6 +120,7 @@ export function activate(context: vscode.ExtensionContext) {
         let selected_txt = get_selected_text(active_doc, selection);
         if (selected_txt.length > 0) {
             replace_str = get_selected_text(active_doc, selection);
+            vscode.window.setStatusBarMessage("Multiline replace set to selection", 2000);
         }
     });
     context.subscriptions.push(disposable3);
